@@ -1,6 +1,6 @@
 import "./App.css";
 import AddRestaurant from "./components/Restaurant/AddRestaurant";
-import AddUser from "./components/AddUser";
+import AddUser from "./components//User/AddUser";
 import axios from "axios";
 
 function App() {
