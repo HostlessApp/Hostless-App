@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import UserForm from './UserForm';
 
 const AddUser = ({createUser}) => {
     const initialState = {firstName: '', lastName: '', admin: false}
@@ -24,16 +25,7 @@ const AddUser = ({createUser}) => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="firstName">First Name:</label>
-                <input type="text" id="firstName" onChange={handleChange} value={formState.firstName} />
-                <label htmlFor="lastName">Last Name:</label>
-                <input type="text" id="lastName" onChange={handleChange} value={formState.lastName} />
-                <label htmlFor="admin">I am here to post my restaurant</label>
-                <input type="checkbox" id="admin" onChange={handleChange} value="true" />
-                <button type="submit">Create User</button>
-
-            </form>
+            <UserForm handleChange={handleChange} handleSubmit={handleSubmit} formState={formState}/>
         </div>
     )
 }
