@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import UserForm from './UserForm';
 
-const AddUser = ({createUser}) => {
-    const initialState = {firstName: '', lastName: '', admin: false}
+const AddUser = ({createUser, userState, setUserState, findUser}) => {
+    const initialState = {firstName: '', lastName: '', username:'', admin: false}
     const [formState, setFormState] = useState(initialState);
 
     function handleSubmit(event) {
@@ -11,11 +11,15 @@ const AddUser = ({createUser}) => {
         const newUser = {
             firstName: formState.firstName, 
             lastName: formState.lastName, 
-            admin: formState.admin
+            admin: formState.admin,
+            username: formState.username
         }
         setFormState(formState, newUser)
         createUser(formState)
+        setUserState(formState)
         setFormState(initialState)
+        console.log(userState)
+        findUser()
         }
     
     function handleChange(event){
@@ -25,6 +29,7 @@ const AddUser = ({createUser}) => {
 
     return (
         <div>
+            <h2>Create User Component</h2>
             <UserForm handleChange={handleChange} handleSubmit={handleSubmit} formState={formState}/>
         </div>
     )

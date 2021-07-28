@@ -36,3 +36,36 @@
     transform: rotate(360deg);
   }
 }
+
+nav {
+  margin: 25px 0;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.navItem {
+  border: 1px black solid;
+  text-decoration: none;
+  color: black;
+  padding: 10px;
+}
+
+.navItem:hover {
+  background-color: whitesmoke;
+}
+
+#searchParams{
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.removeLink{
+text-decoration: none;
+}
+
+#restaurantReq{
+  border: 1px solid black;
+  margin: 10px;
+}
