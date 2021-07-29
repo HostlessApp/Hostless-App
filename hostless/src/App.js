@@ -8,10 +8,15 @@ import axios from "axios";
 import {Route, Link} from 'react-router-dom'
 import SearchParams from "./components/SearchParams";
 import RestaurantDetail from "./components/Restaurant/RestaurantDetail";
+import Nav from "./components/Nav";
+import Slots from "./components/Slots";
+import Reservation from "./components/Reservation";
 
 function App() {
   
 var userRes
+
+const [restaurantState, setRestaurant] = useState('')
 
 const [userState, setUserState] = useState({
       name:{
@@ -21,6 +26,7 @@ const [userState, setUserState] = useState({
       username: "jsmith1",
       admin: false
   })
+
 const [restaurantList, setRestaurantList] = useState([])
 
   function createRestaurant(data) {
@@ -61,23 +67,17 @@ const [restaurantList, setRestaurantList] = useState([])
 
   //changes admin field in userState
   function handleAdmin(){
-      userState.admin = !userState.admin
-      setUserState(userState)
-      console.log(userState.admin)
+      setUserState(userState => {
+        return {...userState, admin: !userState.admin}
+      })
+      console.log(userState)
   }
 
   return (
     <div className="App">
 
-      <nav>
-        <Link class='navItem' to='/restaurants' >Find a Restaurant</Link>
-        <Link class='navItem' to='/reservations'>My Reservations</Link>
-        <Link class='navItem' to={`/edit/${userState.username}`}>My Profile</Link>
-        <form onChange={handleAdmin}>
-          <label htmlFor="adminToggle">Admin View</label>
-          <input type="checkbox" name="adminToggle" id="" />
-        </form>
-      </nav>
+      {userState.admin ? <p>Admin User</p> : <Nav userState={userState} handleAdmin={handleAdmin}/>}
+      
 
       <main>
         {/* Routing for create fields (restaurant and user) */}
@@ -94,9 +94,19 @@ const [restaurantList, setRestaurantList] = useState([])
           <Route exact path = '/edit/:username'
             render ={() => <UpdateUser updateUser={updateUser} userState={userState} deleteUser={deleteUser}/>}
             />
-
+          {/* Routing for restaurant detail */}
           <Route exact path ='/restaurants/:id'
-            render={routerProps => (<RestaurantDetail match={routerProps.match} />)}
+            render={routerProps => (<RestaurantDetail match={routerProps.match} setRestaurant={setRestaurant} restaurantState={restaurantState} />)}
+          />
+
+           {/* Routing for time slots */}
+          <Route exact path='/restaurants/:id/:dayId'
+            render={routerProps => (<Slots match={routerProps.match} restaurantState={restaurantState} />)}
+          />
+
+          {/* Routing for reservation confirmation */}
+          <Route exact path='/restaurants/:id/:dayId/:resId'
+            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} />)}
           />
 
           {/* Routing for home page */}
