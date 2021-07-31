@@ -2,14 +2,16 @@ import React from 'react'
 import { Route, Link } from 'react-router-dom'
 import { useState,useEffect } from 'react'
 
-const Nav = ({userState, handleAdmin}) => {
+const Nav = ({userState, handleAdmin, restaurantState}) => {
 
     return (
         <div>
             <nav>
-        <Link class='navItem' to='/restaurants' >Find a Restaurant</Link>
-        <Link class='navItem' to='/reservations'>My Reservations</Link>
-        <Link class='navItem' to={`/edit/${userState.username}`}>My Profile</Link>
+              {userState.admin ? <Link class='navItem' to={`/reservations/admin/${restaurantState.internalID}`}>Reservations</Link> : <Link class='navItem' to='/restaurants' >Find a Restaurant</Link>}
+              
+              {userState.admin ? <Link class='navItem' to={`/edit/restaurant/${restaurantState.internalID}`}>My Restaurant</Link> : <Link class='navItem' to='/reservations'>My Reservations</Link>}
+              
+              <Link class='navItem' to={`/edit/${userState.username}`}>My Profile</Link>
         
         <form onChange={(handleAdmin)}>
           <label htmlFor="adminToggle">Admin View</label>
