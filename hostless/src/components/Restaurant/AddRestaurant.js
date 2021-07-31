@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import AboutRestaurant from './AboutRestaurant';
 import DaysForm from './DaysForm';
