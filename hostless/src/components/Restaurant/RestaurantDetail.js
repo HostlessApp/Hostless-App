@@ -3,7 +3,7 @@ import axios from 'axios'
 import Days from '../Days'
 import { useState, useEffect } from 'react'
 
-const RestaurantDetail = ({match, setRestaurant, restaurantState}) => {
+const RestaurantDetail = ({match, setRestaurant, restaurantState, reservationState, setReservationState}) => {
 
 
 
@@ -26,7 +26,7 @@ const RestaurantDetail = ({match, setRestaurant, restaurantState}) => {
             <div>
                 <p>{restaurantState.description}</p>
             </div>
-            <Days match={match} restaurantState={restaurantState} />
+            <Days match={match} restaurantState={restaurantState} reservationState={reservationState} setReservationState={setReservationState} />
         </div>
     )
 }

@@ -11,12 +11,24 @@ import RestaurantDetail from "./components/Restaurant/RestaurantDetail";
 import Nav from "./components/Nav";
 import Slots from "./components/Slots";
 import Reservation from "./components/Reservation";
+import EditRestaurant from "./components/Restaurant/EditRestaurant";
+import ReservationList from "./components/ReservationList";
 
 function App() {
   
 var userRes
 
-const [restaurantState, setRestaurant] = useState('')
+const [restaurantState, setRestaurant] = useState({
+  name: "Mr Beans Lair",
+  description: "It is a restaurant with beans as food",
+  address:{
+      street: "1234 Street",
+      city: "Happy Town",
+      state: "FL",
+      zip: "123456"
+  }, 
+  internalID: 1
+})
 
 const [userState, setUserState] = useState({
       name:{
@@ -28,6 +40,13 @@ const [userState, setUserState] = useState({
   })
 
 const [restaurantList, setRestaurantList] = useState([])
+
+const [reservationState, setReservationState] = useState({
+  date: '',
+  user: userState.username,
+  restaurant: '',
+  time: ''
+})
 
   function createRestaurant(data) {
     const payload = data;
@@ -62,8 +81,17 @@ const [restaurantList, setRestaurantList] = useState([])
       .then((res) => console.log(res));
   }
 
+  //delete user in db
   function deleteUser(){
     axios.delete(`http://localhost:3000/users/edit/${userState.username}`)
+  }
+
+  //update restaurant in db
+  function updateRestaurant(data){
+    const payload = data;
+    console.log(payload)
+    axios.put(`http://localhost:3000/restaurants/edit/${restaurantState.internalID}`, payload)
+      .then((res) => console.log(res));
   }
 
   //changes admin field in userState
@@ -77,8 +105,7 @@ const [restaurantList, setRestaurantList] = useState([])
   return (
     <div className="App">
 
-      {userState.admin ? <p>Admin User</p> : <Nav userState={userState} handleAdmin={handleAdmin}/>}
-      
+      <Nav userState={userState} handleAdmin={handleAdmin} restaurantState={restaurantState}/>
 
       <main>
         {/* Routing for create fields (restaurant and user) */}
@@ -97,12 +124,17 @@ const [restaurantList, setRestaurantList] = useState([])
             />
           {/* Routing for restaurant detail */}
           <Route exact path ='/restaurants/:id'
-            render={routerProps => (<RestaurantDetail match={routerProps.match} setRestaurant={setRestaurant} restaurantState={restaurantState} />)}
+            render={routerProps => (<RestaurantDetail match={routerProps.match} setRestaurant={setRestaurant} restaurantState={restaurantState} reservationState={reservationState} setReservationState={setReservationState} />)}
           />
 
            {/* Routing for time slots */}
           <Route exact path='/restaurants/:id/:dayId'
-            render={routerProps => (<Slots match={routerProps.match} restaurantState={restaurantState} />)}
+            render={routerProps => (<Slots match={routerProps.match} restaurantState={restaurantState} reservationState={reservationState} setReservationState={setReservationState} />)}
+          />
+
+          {/* Routing for Restaurant Reservation List */}
+          <Route exact path='/reservations/admin/:id'
+            render={routerProps => (<ReservationList />)}
           />
 
           {/* Routing for reservation confirmation */}
@@ -110,12 +142,18 @@ const [restaurantList, setRestaurantList] = useState([])
             render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} />)}
           />
 
+          {/* Routing for restaurant edit */}
+          <Route exact path='/edit/restaurant/:id'
+            render={routerProps => (<EditRestaurant match={routerProps.match} restaurantState={restaurantState} updateRestaurant={updateRestaurant} />)}
+          />
+
+
           {/* Routing for home page */}
           <Route exact path = '/restaurants'
             render ={() => 
               <Fragment>
                 <SearchParams />
-                <RestaurantList restaurantList={restaurantList} setRestaurantList={setRestaurantList}/>
+                <RestaurantList restaurantList={restaurantList} setRestaurantList={setRestaurantList} reservationState={reservationState} setReservationState={setReservationState} />
               </Fragment>
             }/>
       </main>
