@@ -32,7 +32,8 @@ const [restaurantList, setRestaurantList] = useState([])
   function createRestaurant(data) {
     const payload = data;
     console.log(payload)
-    axios.post("http://localhost:3000/restaurants", payload).then((res) => console.log(res));
+    axios.post("http://localhost:3000/restaurants", payload)
+        .then((res) => console.log(res));
   }
 
   function createUser(data) {
