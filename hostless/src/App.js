@@ -5,7 +5,7 @@ import UpdateUser from "./components/User/UpdateUser";
 import RestaurantList from "./components/Restaurant/RestaurantList";
 import {Fragment, useState} from 'react'
 import axios from "axios";
-import {Route, Link} from 'react-router-dom'
+import {Route, Link, Redirect} from 'react-router-dom'
 import SearchParams from "./components/SearchParams";
 import RestaurantDetail from "./components/Restaurant/RestaurantDetail";
 import Nav from "./components/Nav";
@@ -102,6 +102,14 @@ const [reservationState, setReservationState] = useState({
       console.log(userState)
   }
 
+  //sends reservation data to backend
+  function sendRes(event){
+    event.preventDefault()
+    axios.post('http://localhost:3000/reservations/', reservationState)
+      .then(res => console.log(res))
+      .then(() => <Redirect to='/reservations'/>)
+  }
+
   return (
     <div className="App">
 
@@ -139,14 +147,13 @@ const [reservationState, setReservationState] = useState({
 
           {/* Routing for reservation confirmation */}
           <Route exact path='/restaurants/:id/:dayId/:resId'
-            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} />)}
+            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} sendRes={sendRes}/>)}
           />
 
           {/* Routing for restaurant edit */}
           <Route exact path='/edit/restaurant/:id'
             render={routerProps => (<EditRestaurant match={routerProps.match} restaurantState={restaurantState} updateRestaurant={updateRestaurant} />)}
           />
-
 
           {/* Routing for home page */}
           <Route exact path = '/restaurants'

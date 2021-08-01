@@ -12,7 +12,6 @@ const RestaurantDetail = ({match, setRestaurant, restaurantState, reservationSta
           .then(res => {
             setRestaurant(res.data[0])
         })
-        console.log(restaurantState)
           }
 
     useEffect(() => {

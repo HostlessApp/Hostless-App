@@ -1,11 +1,11 @@
 import React from 'react'
 
-const Reservation = () => {
+const Reservation = ({sendRes}) => {
     return (
         <div>
             <h1>Confirmation</h1>
-            <form action="">
-                <input type="submit" value="Confirm" />
+            <form onSubmit={sendRes}>
+                <input type="submit" value="Confirm"/>
                 <input type="submit" value="Cancel" />
             </form>
         </div>

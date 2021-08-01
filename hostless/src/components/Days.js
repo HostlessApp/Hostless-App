@@ -8,7 +8,6 @@ const Days = ({match, restaurantState, reservationState, setReservationState}) =
 
     const updateReservation =(data) => {
         setReservationState(reservationState => {
-            console.log(data)
             return {...reservationState, date: data}
           })
           console.log(reservationState)
