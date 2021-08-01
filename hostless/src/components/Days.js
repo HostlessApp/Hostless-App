@@ -19,7 +19,7 @@ const Days = ({match, restaurantState, reservationState, setReservationState}) =
             {days ? (
             days.map(day => {
                 return(
-                    <Link to={`/restaurants/${match.params.id}/${day._id}`}>{day.dayOfWeek} onClick={() => updateReservation(day._id)}</Link>
+                    <Link to={`/restaurants/${match.params.id}/${day._id}`} onClick={() => updateReservation(day._id)} >{day.dayOfWeek}</Link>
                 )
             })) : null
             }
