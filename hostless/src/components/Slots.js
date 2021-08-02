@@ -31,7 +31,7 @@ const Slots = ({restaurantState, match, reservationState, setReservationState}) 
             {timesState.map(time => {
                 return(
                     <div>
-                        {time.isReserved ? <p>{time.time.hour}:00</p> : <Link to={`/restaurants/${match.params.id}/${match.params.dayId}/${time._id}`} onClick={() => updateReservation(time._id)}>{time.time.hour}:00</Link>}
+                        {time.isReserved ? <p>{time.time.hour}:00</p> : <Link to={`/restaurants/${match.params.id}/${match.params.dayId}/${time._id}`} onClick={() => updateReservation(time.time.hour)}>{time.time.hour}:00</Link>}
                     </div>
                 )
             })}

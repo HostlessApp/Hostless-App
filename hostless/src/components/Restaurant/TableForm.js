@@ -15,8 +15,6 @@ const TableForm = ({table, removeTable, editTable, toggleTable}) => {
         }
     }
     function handleChange(event) {
-        let change = event.target.value
-
         setFormState({...formState, [event.target.id]: event.target.value})
     }
 

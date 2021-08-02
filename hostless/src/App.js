@@ -5,14 +5,14 @@ import UpdateUser from "./components/User/UpdateUser";
 import RestaurantList from "./components/Restaurant/RestaurantList";
 import {Fragment, useState} from 'react'
 import axios from "axios";
-import {Route, Link, Redirect} from 'react-router-dom'
+import {Route, Redirect} from 'react-router-dom'
 import SearchParams from "./components/SearchParams";
 import RestaurantDetail from "./components/Restaurant/RestaurantDetail";
 import Nav from "./components/Nav";
 import Slots from "./components/Slots";
-import Reservation from "./components/Reservation";
+import Reservation from "./components/Reservation/Reservation";
 import EditRestaurant from "./components/Restaurant/EditRestaurant";
-import ReservationList from "./components/ReservationList";
+import ReservationList from "./components/Reservation/ReservationList";
 
 function App() {
   
@@ -47,6 +47,8 @@ const [reservationState, setReservationState] = useState({
   restaurant: '',
   time: ''
 })
+
+const [reservationList, setReservationList] = useState([])
 
   function createRestaurant(data) {
     const payload = data;
@@ -140,14 +142,14 @@ const [reservationState, setReservationState] = useState({
             render={routerProps => (<Slots match={routerProps.match} restaurantState={restaurantState} reservationState={reservationState} setReservationState={setReservationState} />)}
           />
 
-          {/* Routing for Restaurant Reservation List */}
-          <Route exact path='/reservations/admin/:id'
-            render={routerProps => (<ReservationList />)}
+          {/* Routing for Reservation List */}
+          <Route path='/reservations'
+            render={routerProps => (<ReservationList userState={userState} reservationState={reservationState} reservationList={reservationList} setReservationList={setReservationList} />)}
           />
 
           {/* Routing for reservation confirmation */}
           <Route exact path='/restaurants/:id/:dayId/:resId'
-            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} sendRes={sendRes}/>)}
+            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} reservationState={reservationState} sendRes={sendRes}/>)}
           />
 
           {/* Routing for restaurant edit */}

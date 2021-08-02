@@ -1,11 +1,9 @@
 import React from 'react'
 import axios from 'axios'
 import Days from '../Days'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
 const RestaurantDetail = ({match, setRestaurant, restaurantState, reservationState, setReservationState}) => {
-
-
 
     function findRestaurant() {
         axios.get(`http://localhost:3000/restaurants/${match.params.id}`)
@@ -18,7 +16,6 @@ const RestaurantDetail = ({match, setRestaurant, restaurantState, reservationSta
         findRestaurant()
     }, [])
 
-    console.log(match.params.id)
     return (
         <div>
             <h1>{restaurantState.name}</h1>

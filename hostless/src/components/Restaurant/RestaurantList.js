@@ -16,7 +16,6 @@ const RestaurantList = ({restaurantList, setRestaurantList, reservationState, se
         setReservationState(reservationState => {
             return {...reservationState, restaurant: data}
           })
-          console.log(reservationState)
       }
 
     return (
