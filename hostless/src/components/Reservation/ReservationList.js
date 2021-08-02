@@ -11,8 +11,15 @@ const ReservationList = ({
     useEffect(() => {
         if(userState.admin){
             axios.get(`http://localhost:3000/reservations/admin/${userState.id}`)
+            .then(res => { 
+                setReservationList(res.data) 
+            })
+        } else {
+            axios.get(`http://localhost:3000/reservations`)
             .then(res => { setReservationList(res.data) })
-        } // eslint-disable-next-line react-hooks/exhaustive-deps
+        } 
+        console.log(reservationList)    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []) 
 
     return (
@@ -20,7 +27,7 @@ const ReservationList = ({
             <h1>Reservations</h1>
             {
                 reservationList.map( reservation => {
-                    let hrs = reservation.time
+                    let hrs = reservation.timeStr
                     let ap = 'am'
                     if(hrs > 12){
                         ap = 'pm'
@@ -28,13 +35,18 @@ const ReservationList = ({
                     }
 
                     console.log('reservation::',reservation)
-
+                    
+                    console.log('pos')
                     return(
-                        <div id='listedReservation'>
-                            <p>Restaurant: {reservation.name}</p>
-                            <p>Day: {reservation.date}</p>
-                            <p>Time: {hrs}:00{ap}</p>
-                            <p>Party Name: {reservation.user}</p>
+                        <div>
+                            { reservation.user.username === userState.username ? 
+                                <div id='listedReservation'>
+                                    <p>Restaurant: {reservation.name}</p>
+                                    <p>Day: {reservation.date}</p>
+                                    <p>Time: {hrs}:00{ap}</p>
+                                    <p>Party Name: {reservation.user}</p>
+                                </div>
+                            : null }
                         </div>
                     )
                 })

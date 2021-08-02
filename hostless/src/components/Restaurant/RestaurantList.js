@@ -24,7 +24,7 @@ const RestaurantList = ({restaurantList, setRestaurantList, reservationState, se
             return(
                 <div>  
                     <Link to={'/restaurants/' + restaurant.internalID}>
-                        <div id="restaurantReq" onClick={() => updateReservation(restaurant.internalID)}>
+                        <div id="restaurantReq" onClick={() => updateReservation(restaurant._id)}>
                             <h3 class ='removeLink'>{restaurant.name}</h3>
                             <p class ='removeLink'>{restaurant.description}</p>
                         </div>

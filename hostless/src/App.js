@@ -101,7 +101,7 @@ const [reservationList, setReservationList] = useState([])
       setUserState(userState => {
         return {...userState, admin: !userState.admin}
       })
-      console.log(userState)
+      console.log('userState: ', userState)
   }
 
   //sends reservation data to backend

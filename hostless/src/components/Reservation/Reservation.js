@@ -1,12 +1,14 @@
 import React from 'react'
 
 const Reservation = ({restaurantState, reservationState, sendRes}) => {
-    let hrs = reservationState.time
+    let hrs = reservationState.timeStr
     let ap = 'am'
     if(hrs > 12){
         ap = 'pm'
         hrs = hrs - 12
     }
+    
+    // console.log('day::',reservationState.date)
     
     return (
         <div>
