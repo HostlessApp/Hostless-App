@@ -1,6 +1,5 @@
 import React from 'react'
-import { Route, Link } from 'react-router-dom'
-import { useState,useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 const Nav = ({userState, handleAdmin, restaurantState}) => {
 

@@ -5,14 +5,14 @@ import UpdateUser from "./components/User/UpdateUser";
 import RestaurantList from "./components/Restaurant/RestaurantList";
 import {Fragment, useState} from 'react'
 import axios from "axios";
-import {Route, Link, Redirect} from 'react-router-dom'
+import {Route, Redirect} from 'react-router-dom'
 import SearchParams from "./components/SearchParams";
 import RestaurantDetail from "./components/Restaurant/RestaurantDetail";
 import Nav from "./components/Nav";
 import Slots from "./components/Slots";
-import Reservation from "./components/Reservation";
+import Reservation from "./components/Reservation/Reservation";
 import EditRestaurant from "./components/Restaurant/EditRestaurant";
-import ReservationList from "./components/ReservationList";
+import ReservationList from "./components/Reservation/ReservationList";
 
 function App() {
   
@@ -44,9 +44,13 @@ const [restaurantList, setRestaurantList] = useState([])
 const [reservationState, setReservationState] = useState({
   date: '',
   user: userState.username,
+  // user: null,
+  // userObj: null,
   restaurant: '',
   time: ''
 })
+
+const [reservationList, setReservationList] = useState([])
 
   function createRestaurant(data) {
     const payload = data;
@@ -68,8 +72,8 @@ const [reservationState, setReservationState] = useState({
       .then(res => res.data)
       .then(res =>{
          userRes = res.filter(item => item.username === userState.username)
-      console.log(userRes)
-      setUserState(userRes)
+      console.log('userRes: ', userRes[0])
+      setUserState(userRes[0]) // TODO - user cast ObjectId error
     })
   }
 
@@ -99,15 +103,25 @@ const [reservationState, setReservationState] = useState({
       setUserState(userState => {
         return {...userState, admin: !userState.admin}
       })
-      console.log(userState)
+      console.log('userState: ', userState)
   }
 
   //sends reservation data to backend
-  function sendRes(event){
-    event.preventDefault()
-    axios.post('http://localhost:3000/reservations/', reservationState)
-      .then(res => console.log(res))
-      .then(() => <Redirect to='/reservations'/>)
+  function sendRes(){
+  // function sendRes(event){
+  //   event.preventDefault()
+    findUser()
+    setReservationState({...reservationState, user: userRes[0]}) 
+    axios.post('http://localhost:3000/reservations', reservationState)
+    .then(res => console.log('reservation posted: ', res))
+    .then(() => <Redirect to='/reservations'/>)
+  }
+
+  // cancels the reservation
+  function cancelRes(event){
+    // event.preventDefault();
+    // <Route exact path to='/reservations'/>
+    console.log('hit cancel reservation')
   }
 
   return (
@@ -140,14 +154,14 @@ const [reservationState, setReservationState] = useState({
             render={routerProps => (<Slots match={routerProps.match} restaurantState={restaurantState} reservationState={reservationState} setReservationState={setReservationState} />)}
           />
 
-          {/* Routing for Restaurant Reservation List */}
-          <Route exact path='/reservations/admin/:id'
-            render={routerProps => (<ReservationList />)}
+          {/* Routing for Reservation List */}
+          <Route path='/reservations'
+            render={routerProps => (<ReservationList userState={userState} reservationState={reservationState} reservationList={reservationList} setReservationList={setReservationList} />)}
           />
 
           {/* Routing for reservation confirmation */}
           <Route exact path='/restaurants/:id/:dayId/:resId'
-            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} sendRes={sendRes}/>)}
+            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} reservationState={reservationState} setReservationState={setReservationState} findUser={findUser} userState={userState} sendRes={sendRes} cancelRes={cancelRes} />)}
           />
 
           {/* Routing for restaurant edit */}
