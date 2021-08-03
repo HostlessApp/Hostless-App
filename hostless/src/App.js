@@ -44,6 +44,8 @@ const [restaurantList, setRestaurantList] = useState([])
 const [reservationState, setReservationState] = useState({
   date: '',
   user: userState.username,
+  // user: null,
+  // userObj: null,
   restaurant: '',
   time: ''
 })
@@ -70,8 +72,8 @@ const [reservationList, setReservationList] = useState([])
       .then(res => res.data)
       .then(res =>{
          userRes = res.filter(item => item.username === userState.username)
-      console.log(userRes)
-      setUserState(userRes)
+      console.log('userRes: ', userRes[0])
+      setUserState(userRes[0]) // TODO - user cast ObjectId error
     })
   }
 
@@ -105,21 +107,21 @@ const [reservationList, setReservationList] = useState([])
   }
 
   //sends reservation data to backend
-  function sendRes(event){
-    event.preventDefault()
-    console.log('e', event.target)
-    if(event.target.value === 'Confirm'){
-      findUser()
-      setReservationState(userState => {
-        return {...reservationState, user: userState}
-      })
-      axios.post('http://localhost:3000/reservations/', reservationState)
-      .then(res => console.log('reservation posted: ', res))
-      .then(() => <Redirect to='/reservations'/>)
-    } else {
-      <Redirect to='/reservations'/>
-      console.log('reservation confirmation canceled')
-    }
+  function sendRes(){
+  // function sendRes(event){
+  //   event.preventDefault()
+    findUser()
+    setReservationState({...reservationState, user: userRes[0]}) 
+    axios.post('http://localhost:3000/reservations', reservationState)
+    .then(res => console.log('reservation posted: ', res))
+    .then(() => <Redirect to='/reservations'/>)
+  }
+
+  // cancels the reservation
+  function cancelRes(event){
+    // event.preventDefault();
+    // <Route exact path to='/reservations'/>
+    console.log('hit cancel reservation')
   }
 
   return (
@@ -159,7 +161,7 @@ const [reservationList, setReservationList] = useState([])
 
           {/* Routing for reservation confirmation */}
           <Route exact path='/restaurants/:id/:dayId/:resId'
-            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} reservationState={reservationState} sendRes={sendRes} />)}
+            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} reservationState={reservationState} setReservationState={setReservationState} findUser={findUser} userState={userState} sendRes={sendRes} cancelRes={cancelRes} />)}
           />
 
           {/* Routing for restaurant edit */}
