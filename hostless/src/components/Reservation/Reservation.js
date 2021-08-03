@@ -9,7 +9,7 @@ const Reservation = ({restaurantState, reservationState, sendRes}) => {
     }
     
     // console.log('day::',reservationState.date)
-    
+
     return (
         <div>
             <h1>Reservation Confirmation</h1>

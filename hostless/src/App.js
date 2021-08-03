@@ -107,9 +107,19 @@ const [reservationList, setReservationList] = useState([])
   //sends reservation data to backend
   function sendRes(event){
     event.preventDefault()
-    axios.post('http://localhost:3000/reservations/', reservationState)
-      .then(res => console.log(res))
+    console.log('e', event.target)
+    if(event.target.value === 'Confirm'){
+      findUser()
+      setReservationState(userState => {
+        return {...reservationState, user: userState}
+      })
+      axios.post('http://localhost:3000/reservations/', reservationState)
+      .then(res => console.log('reservation posted: ', res))
       .then(() => <Redirect to='/reservations'/>)
+    } else {
+      <Redirect to='/reservations'/>
+      console.log('reservation confirmation canceled')
+    }
   }
 
   return (
@@ -149,7 +159,7 @@ const [reservationList, setReservationList] = useState([])
 
           {/* Routing for reservation confirmation */}
           <Route exact path='/restaurants/:id/:dayId/:resId'
-            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} reservationState={reservationState} sendRes={sendRes}/>)}
+            render={routerProps => (<Reservation match={routerProps.match} restaurantState={restaurantState} reservationState={reservationState} sendRes={sendRes} />)}
           />
 
           {/* Routing for restaurant edit */}
