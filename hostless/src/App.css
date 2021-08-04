@@ -93,3 +93,10 @@ text-decoration: none;
 .divItem:hover {
   background-color: whitesmoke;
 }
+
+#listedReservation {
+  border: 1px solid black;
+  margin: 0 auto;
+  width: 50%;
+
+}

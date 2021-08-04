@@ -12,7 +12,7 @@ const Reservation = ({restaurantState, reservationState, setReservationState, se
     
     
     const confirmReservation = () => {
-        findUser()
+        sendRes()
         // console.log('reserve here: ', reserve)
         axios.post('http://localhost:3000/reservations', reservationState)
         .then(res => console.log('reservation posted: ', res))
@@ -27,7 +27,7 @@ const Reservation = ({restaurantState, reservationState, setReservationState, se
             <p>Time: {hrs}:00{ap}</p>
             <p>Party Name: {userState.username}</p>
             {/* <form onSubmit={sendRes}> */}
-            <form onSubmit={() => confirmReservation(findUser)}>
+            <form onSubmit={(e) => sendRes(e)}>
                 <input type="submit" value="Confirm"/>
                 {/* <input type="button" onClick={cancelRes} value="Cancel" /> */}
                 {/* <input type="button" value="Cancel" to='/reservations' renderAs={Link} /> */}
