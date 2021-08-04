@@ -5,7 +5,7 @@ import UpdateUser from "./components/User/UpdateUser";
 import RestaurantList from "./components/Restaurant/RestaurantList";
 import {Fragment, useState} from 'react'
 import axios from "axios";
-import {Route, Redirect} from 'react-router-dom'
+import {Route, Redirect, useHistory} from 'react-router-dom'
 import SearchParams from "./components/SearchParams";
 import RestaurantDetail from "./components/Restaurant/RestaurantDetail";
 import Nav from "./components/Nav";
@@ -14,9 +14,12 @@ import Reservation from "./components/Reservation/Reservation";
 import EditRestaurant from "./components/Restaurant/EditRestaurant";
 import ReservationList from "./components/Reservation/ReservationList";
 
+
 function App() {
   
 var userRes
+
+let history = useHistory()
 
 const [restaurantState, setRestaurant] = useState({
   name: "Mr Beans Lair",
@@ -35,8 +38,8 @@ const [userState, setUserState] = useState({
           first: "John",
           last: "Smith"
       },
-      username: "jsmith1",
-      admin: false
+      username: "jsmith2",
+      admin: true
   })
 
 const [restaurantList, setRestaurantList] = useState([])
@@ -50,7 +53,9 @@ const [reservationState, setReservationState] = useState({
   time: ''
 })
 
-const [reservationList, setReservationList] = useState([])
+//const [reservationList, setReservationList] = useState([])
+
+const [checkState, setCheckState] =  useState(userState.admin)
 
   function createRestaurant(data) {
     const payload = data;
@@ -100,21 +105,25 @@ const [reservationList, setReservationList] = useState([])
 
   //changes admin field in userState
   function handleAdmin(){
+    let newState = !userState.admin
       setUserState(userState => {
-        return {...userState, admin: !userState.admin}
+        return {...userState, admin: newState}
       })
-      console.log('userState: ', userState)
+      setCheckState(newState)
+      console.log(newState)
+      history.push("/restaurants")
   }
 
   //sends reservation data to backend
-  function sendRes(){
+  function sendRes(e){
   // function sendRes(event){
-  //   event.preventDefault()
-    findUser()
-    setReservationState({...reservationState, user: userRes[0]}) 
+    e.preventDefault()
+    // findUser()
+    // setReservationState({...reservationState, user: userRes[0]}) 
     axios.post('http://localhost:3000/reservations', reservationState)
     .then(res => console.log('reservation posted: ', res))
-    .then(() => <Redirect to='/reservations'/>)
+    // .then(() => this.props.location('http://localhost:3002/reservations'))
+    history.push("/reservations")
   }
 
   // cancels the reservation
@@ -127,7 +136,7 @@ const [reservationList, setReservationList] = useState([])
   return (
     <div className="App">
 
-      <Nav userState={userState} handleAdmin={handleAdmin} restaurantState={restaurantState}/>
+      <Nav userState={userState} handleAdmin={handleAdmin} restaurantState={restaurantState} checkState={checkState}/>
 
       <main>
         {/* Routing for create fields (restaurant and user) */}
@@ -156,7 +165,7 @@ const [reservationList, setReservationList] = useState([])
 
           {/* Routing for Reservation List */}
           <Route path='/reservations'
-            render={routerProps => (<ReservationList userState={userState} reservationState={reservationState} reservationList={reservationList} setReservationList={setReservationList} />)}
+            render={routerProps => (<ReservationList userState={userState} reservationState={reservationState} restaurantState={restaurantState} />)}
           />
 
           {/* Routing for reservation confirmation */}
