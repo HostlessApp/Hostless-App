@@ -47,8 +47,6 @@ const [restaurantList, setRestaurantList] = useState([])
 const [reservationState, setReservationState] = useState({
   date: '',
   user: userState.username,
-  // user: null,
-  // userObj: null,
   restaurant: '',
   time: ''
 })
