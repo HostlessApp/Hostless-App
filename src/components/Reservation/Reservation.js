@@ -10,11 +10,12 @@ const Reservation = ({restaurantState, reservationState, setReservationState, se
         hrs = hrs - 12
     }
     
+    const URL = 'https://host-less.herokuapp.com'
     
     const confirmReservation = () => {
         sendRes()
         // console.log('reserve here: ', reserve)
-        axios.post('http://localhost:3000/reservations', reservationState)
+        axios.post(URL + '/reservations', reservationState)
         .then(res => console.log('reservation posted: ', res))
         sendRes()        
     }

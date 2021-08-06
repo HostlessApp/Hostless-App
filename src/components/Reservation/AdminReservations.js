@@ -11,9 +11,11 @@ const AdminReservations = ({
     
     const [reservationList, setReservationList] = useState([])
 
+    const URL = 'https://host-less.herokuapp.com'
+    
     useEffect(() => {
 
-            axios.get(`http://localhost:3000/reservations/admin/${restaurantState.internalID}`)
+            axios.get(URL + `/reservations/admin/${restaurantState.internalID}`)
             .then(res => { 
                 setReservationList(res.data.reservations) 
             })

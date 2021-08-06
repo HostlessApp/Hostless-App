@@ -13,8 +13,10 @@ const Slots = ({restaurantState, match, reservationState, setReservationState}) 
           })
     }
 
+    const URL = 'https://host-less.herokuapp.com'
+
     const fetchDay = () => {
-        axios.get(`http://localhost:3000/restaurants/day/${match.params.dayId}`)
+        axios.get(URL + `/restaurants/day/${match.params.dayId}`)
         .then(res => {
             setTimesState(res.data)
         })

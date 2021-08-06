@@ -19,6 +19,8 @@ function App() {
   
 var userRes
 
+const URL = 'https://host-less.herokuapp.com'
+
 let history = useHistory()
 
 const [restaurantState, setRestaurant] = useState({
@@ -58,20 +60,20 @@ const [checkState, setCheckState] =  useState(userState.admin)
   function createRestaurant(data) {
     const payload = data;
     console.log(payload)
-    axios.post("http://localhost:3000/restaurants", payload)
+    axios.post(URL + "/restaurants", payload)
         .then((res) => console.log(res));
   }
 
   function createUser(data) {
     const payload = data;
     console.log(payload)
-    axios.post('http://localhost:3000/users', payload)
+    axios.post(URL + '/users', payload)
       .then((res) => console.log(res));
   }
 
   //function to grab user _id from DB in order to pass it through update route
   function findUser() {
-    axios.get('http://localhost:3000/users')
+    axios.get(URL + '/users')
       .then(res => res.data)
       .then(res =>{
          userRes = res.filter(item => item.username === userState.username)
@@ -84,20 +86,20 @@ const [checkState, setCheckState] =  useState(userState.admin)
   function updateUser(data){
     const payload = data;
     console.log(payload)
-    axios.put(`http://localhost:3000/users/edit/${userState.username}`, payload)
+    axios.put(URL + `/users/edit/${userState.username}`, payload)
       .then((res) => console.log(res));
   }
 
   //delete user in db
   function deleteUser(){
-    axios.delete(`http://localhost:3000/users/edit/${userState.username}`)
+    axios.delete(URL + `/users/edit/${userState.username}`)
   }
 
   //update restaurant in db
   function updateRestaurant(data){
     const payload = data;
     console.log(payload)
-    axios.put(`http://localhost:3000/restaurants/edit/${restaurantState.internalID}`, payload)
+    axios.put(URL + `/restaurants/edit/${restaurantState.internalID}`, payload)
       .then((res) => console.log(res));
   }
 
@@ -118,7 +120,7 @@ const [checkState, setCheckState] =  useState(userState.admin)
     e.preventDefault()
     // findUser()
     // setReservationState({...reservationState, user: userRes[0]}) 
-    axios.post('http://localhost:3000/reservations', reservationState)
+    axios.post(URL + '/reservations', reservationState)
     .then(res => console.log('reservation posted: ', res))
     // .then(() => this.props.location('http://localhost:3002/reservations'))
     history.push("/reservations")

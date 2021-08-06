@@ -11,6 +11,8 @@ const ReservationList = ({
     restaurantState
 }) => {
 
+    const URL = 'https://host-less.herokuapp.com'
+
     useEffect(() => {
 
     }, [userState])

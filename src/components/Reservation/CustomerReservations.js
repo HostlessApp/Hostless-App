@@ -10,9 +10,11 @@ const CustomerReservations = ({
     
     const [reservationList, setReservationList] = useState([])
 
+    const URL = 'https://host-less.herokuapp.com'
+
     useEffect(() => {
         
-        axios.get(`http://localhost:3000/users/${userState.username}`)
+        axios.get(URL + `/users/${userState.username}`)
         .then(res => { 
             let newList = res.data
         setReservationList(newList) 

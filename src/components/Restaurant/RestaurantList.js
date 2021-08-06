@@ -4,9 +4,11 @@ import {Link} from 'react-router-dom'
 import axios from "axios";
 
 const RestaurantList = ({restaurantList, setRestaurantList, reservationState, setReservationState}) => {
+
+    const URL = 'https://host-less.herokuapp.com'
     
     useEffect(() => {
-        axios.get('http://localhost:3000/restaurants')
+        axios.get(URL + '/restaurants')
             .then(res => {
                 setRestaurantList(res.data)
             })

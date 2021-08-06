@@ -19,13 +19,15 @@ const initialTables = [
     },
 ]
 
+const URL = 'https://host-less.herokuapp.com'
+
 const AddRestaurant = ({createRestaurant}) => {
     const [restaurant, setRestaurant] = useState({about: {}, hours: {}, tables: initialTables, internalID:''})
 
     var resCount
 
     const countRestaurants = () => {
-        axios.get('http://localhost:3000/restaurants')
+        axios.get(URL + '/restaurants')
             .then(res => {
                 resCount = res.data.length+1
                 console.log(resCount)

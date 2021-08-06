@@ -5,8 +5,10 @@ import { useEffect } from 'react'
 
 const RestaurantDetail = ({match, setRestaurant, restaurantState, reservationState, setReservationState}) => {
 
+    const URL = 'https://host-less.herokuapp.com'
+
     function findRestaurant() {
-        axios.get(`http://localhost:3000/restaurants/${match.params.id}`)
+        axios.get(URL + `/restaurants/${match.params.id}`)
           .then(res => {
             setRestaurant(res.data[0])
         })
